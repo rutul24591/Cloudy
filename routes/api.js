@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require( 'mongoose' );
-var Post = mongoose.model('Post');
+/*var mongoose = require( 'mongoose' );
+//var Post = mongoose.model('Post');
+var Alert = mongoose.model('Alert');
+var Ticket = mongoose.model('Ticket');
+var Project = mongoose.model('Project');
 //Used for routes that must be authenticated.
 function isAuthenticated (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
@@ -18,16 +21,17 @@ function isAuthenticated (req, res, next) {
 
 	// if the user is not authenticated then redirect him to the login page
 	return res.redirect('/#login');
-};
+};*/
 
 //Register the authentication middleware
-router.use('/posts', isAuthenticated);
+//router.use('/posts', isAuthenticated);
 
 router.route('/posts')
 	//creates a new post
 	.post(function(req, res){
 
-		var post = new Post();
+		req.send({message:"TODO create a new post in the database"});
+		/*var post = new Post();
 		post.text = req.body.text;
 		post.created_by = req.body.created_by;
 		post.save(function(err, post) {
@@ -35,20 +39,40 @@ router.route('/posts')
 				return res.send(500, err);
 			}
 			return res.json(post);
-		});
+		});*/
 	})
 	//gets all posts
 	.get(function(req, res){
-		console.log('debug1');
+
+		req.send({message:"TODO get all the posts in the database"});
+		/*console.log('debug1');
 		Post.find(function(err, posts){
 			console.log('debug2');
 			if(err){
 				return res.send(500, err);
 			}
 			return res.send(200,posts);
-		});
+		});*/
 	});
 
+
+	router.route('/posts/:id')
+
+    //create
+    .put(function(req,res){
+        return res.send({message:'TODO modify an existing post by using param ' + req.param.id});
+    })
+
+    .get(function(req,res){
+        return res.send({message:'TODO get an existing post by using param ' + req.param.id});
+    })
+
+    .delete(function(req,res){
+        return res.send({message:'TODO delete an existing post by using param ' + req.param.id})
+    });
+
+module.exports = router;
+/*
 //post-specific commands. likely won't be used
 router.route('/posts/:id')
 	//gets specified post
@@ -87,4 +111,4 @@ router.route('/posts/:id')
 		});
 	});
 
-module.exports = router;
+module.exports = router;*/

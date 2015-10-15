@@ -7,13 +7,13 @@ module.exports = function(passport){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
 	passport.serializeUser(function(user, done) {
-		console.log('serializing user:',user.username);
+		console.log('serializing user:',user.email);
 		done(null, user._id);
 	});
 
 	passport.deserializeUser(function(id, done) {
 		User.findById(id, function(err, user) {
-			console.log('deserializing user:',user.username);
+			console.log('deserializing user:',user.email);
 			done(err, user);
 		});
 	});
@@ -21,16 +21,16 @@ module.exports = function(passport){
 	passport.use('login', new LocalStrategy({
 			passReqToCallback : true
 		},
-		function(req, username, password, done) { 
+		function(req, email, password, done) { 
 			// check in mongo if a user with username exists or not
-			User.findOne({ 'username' :  username }, 
+			User.findOne({ 'Email' :  email }, 
 				function(err, user) {
 					// In case of any error, return using the done method
 					if (err)
 						return done(err);
 					// Username does not exist, log the error and redirect back
 					if (!user){
-						console.log('User Not Found with username '+username);
+						console.log('User Not Found with username '+firstname);
 						return done(null, false);                 
 					}
 					// User exists but wrong password, log the error 
@@ -49,10 +49,10 @@ module.exports = function(passport){
 	passport.use('signup', new LocalStrategy({
 			passReqToCallback : true // allows us to pass back the entire request to the callback
 		},
-		function(req, username, password, done) {
+		function(req, email, password, done) {
 
 			// find a user in mongo with provided username
-			User.findOne({ 'username' :  username }, function(err, user) {
+			User.findOne({ 'email' :  email}, function(err, user) {
 				// In case of any error, return using the done method
 				if (err){
 					console.log('Error in SignUp: '+err);
@@ -60,14 +60,17 @@ module.exports = function(passport){
 				}
 				// already exists
 				if (user) {
-					console.log('User already exists with username: '+username);
+					console.log('User already exists with email: '+email);
 					return done(null, false);
 				} else {
 					// if there is no user, create the user
 					var newUser = new User();
 
 					// set the user's local credentials
-					newUser.username = username;
+					newUser.firstname = firstname;
+					newUser.lastName = lastname;
+					newUser.company = company;
+					newUser.email = email;
 					newUser.password = createHash(password);
 
 					// save the user
@@ -76,7 +79,7 @@ module.exports = function(passport){
 							console.log('Error in Saving user: '+err);  
 							throw err;  
 						}
-						console.log(newUser.username + ' Registration succesful');    
+						console.log(newUser.firstname + ' Registration succesful');    
 						return done(null, newUser);
 					});
 				}
