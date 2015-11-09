@@ -1,40 +1,96 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+/*
+ *
+ * Database functionalities for user objects
+ *
+ */
 
+var env = require("../config/environment")
+	, validator = require("validator")
+	, _ = require("underscore")
+	, logger = env.logger
+;
 
-var ticketSchema = new mongoose.Schema({
-	ticketname: String,		//should be changed to ObjectId, ref "User"
-	created_at: {type: Date, default: Date.now},
-	ticketseverity: String,
-	created_by: String,
-	ticketstatus: String,
-	ticketLevel: String,
-});
+function dbCreateUser(userObject, callback) {
+	if (!userObject.userId) {
+		var userId = {"userId": env.uuid()};
+	}
+	userObject = _.extend(userObject, userId);
 
-var alertSchema= new mongoose.Schema({
-	projectname: String,
-	created_at: {type: Date, default: Date.now},
-});
+	// Create object instance for mongoose
+	var dbUserObject = new env.Users(userObject);
 
-var projectSchema = new mongoose.Schema({
-	projectname: String,
-	created_at: {type:Date, default: Date.now},
-	created_by: String,
-	companyname: String,
-});
+	// Because mongoose is an orm, we need to save the object instance
+	dbUserObject.save(function(error, newUserObject) {
+		if(error) {
+			logger.error('Error from database creating a user.');
+			return callback(error, null);
+		}
+		// Convert the mongoose doc to JSON object
+		newUserObject = newUserObject.toObject();
+		return callback(null, _.omit(newUserObject, ['_id', '__v']));
+	});
+}
 
-var userSchema = new mongoose.Schema({
-	firstname: String,
-	lastname: String,
-	company: String,
-	email: String,
-	password: String, //hash created from password
-	created_at: {type: Date, default: Date.now}
-});
+function dbGetUser(userId, callback) {
+	env.Users.findOne({ "userId": userId }, function(error, userObject) {
+		// log error from database, if so
+		if(error) {
+			logger.error('Error from database: ' + error);
+			return callback(error);
+		}
+		// check if a null object is received
+		if(validator.isNull(userObject)) {
+			logger.debug('Null object received from database, userId: ' + userId);
+			return callback(null, null);
+		}
+		// Because mongo is an orm, it's doc needs to be converted to JS object
+		userObject = userObject.toObject();
+		//Return the information from database
+		return callback(null, _.omit(userObject, ['_id', '__v']));
+ 	});
+}
 
+function dbLoginUser(username, password, callback) {
+	var query = { "email": username, "password": password };
+	env.Users.findOne(query, function(error, userObject) {
+		// log error from database, if so
+		if(error) {
+			logger.error('Error from database: ' + error);
+			return callback(error);
+		}
+		// check if a null object is received
+		if(validator.isNull(userObject)) {
+			logger.log('Null object received from database, userId: ' + username);
+			return callback(null, null);
+		}
+		// Because mongo is an orm, it's doc needs to be converted to JS object
+		userObject = userObject.toObject();
+		//Return the information from database
+		return callback(null, _.omit(userObject, ['__v']));
+ 	});
+}
 
-//mongoose.model('Post', postSchema);
-mongoose.model('User', userSchema);
-mongoose.model('Alert',alertSchema);
-mongoose.model('Project',projectSchema);
-mongoose.model('Ticket',ticketSchema);
+function removeUsers(callback) {
+	env.Users.remove({}, function(error, numRemoved) {
+		if(error) {
+			logger.error('Error from database: ' + error);
+			return callback(error);
+		}
+		return callback(null, numRemoved);
+	});
+}
+
+//function app.get('/logout', function(req, res){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+ // req.session.destroy(function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+   // res.redirect('/Landing');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+  //});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+//});  
+
+// Export all functions for this module
+moduleExports = {}
+moduleExports.dbGetUser = dbGetUser;
+moduleExports.dbCreateUser = dbCreateUser;
+moduleExports.dbLoginUser = dbLoginUser;
+moduleExports.removeUsers = removeUsers;
+
+module.exports = moduleExports;
