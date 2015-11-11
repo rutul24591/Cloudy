@@ -23,7 +23,7 @@ var userModel = require("../models/userModel");
 module.exports.getRoot = function(req, res) {
 	logger.log('GET Request for URL: / received.');
 	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	res.render('../public/index.html');
+	res.render('../public/test.html');
 }
 
 module.exports.getLogout = function(req, res) {
@@ -70,11 +70,15 @@ module.exports.getUser = function(req, res) {
 		}
 		logger.log('GET /user response ' + JSON.stringify(user));
 		return res.send(200, user);
+		return res.render('home');
 	});
 }
 
 module.exports.postLogin = function(req, res) {
-	logger.log("POST /login request received userId=" + req.body.userId);
+	console.log("POST /login request received userId=" + req.body);
+	console.log("POST /login request received userId=" + req.body);
+	//logger.log("POST /login request received userId=" + req.body.userId);
+	//console.log("POST /login request received userId=" + req.body.userId);
 	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
 	// logger.log('blah' + JSON.stringify(req.body));
 	var username = req.body.loginname;

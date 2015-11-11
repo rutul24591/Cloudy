@@ -25,6 +25,13 @@ var express = require('express'),
 
 var app = express();
 
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 sharedEnv.logger = logger;
 
 // view engine setup
@@ -48,10 +55,6 @@ require('./config/init/compileSchemas')(app, sharedEnv);
 // }));
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 // app.use(passport.initialize());
 // app.use(passport.session());
 
@@ -106,10 +109,10 @@ io.on('connection', function(socket) {
 });
 
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",
-    port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+    port = process.env.OPENSHIFT_NODEJS_PORT || 3002;
 
 
-console.log(" Express server listening on port 3000");
+console.log(" Express server listening on port 3002");
 app.listen(port,ip);
 
 module.exports = app;
