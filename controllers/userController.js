@@ -30,6 +30,8 @@ module.exports.getLogout = function(req, res) {
 	return res.redirect('/');
 }
 
+
+//Sign Up
 module.exports.postUser = function(req, res) {
 	// check if body is empty
 	if (_.isEmpty(req.body)) {
@@ -55,7 +57,7 @@ module.exports.postUser = function(req, res) {
 }
 
 module.exports.getUser = function(req, res) {
-	logger.log("GET /user request received userId=" + req.params.user_id);
+	logger.log("GET /user request received userId=" + req.body.user_id);
 	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
 	var userId = req.params.user_id;
 	userModel.dbGetUser(userId, function(error, user) {
@@ -69,20 +71,27 @@ module.exports.getUser = function(req, res) {
 
 		}
 		logger.log('GET /user response ' + JSON.stringify(user));
+
 		return res.send(200, user);
+		res.locals.userName = user.first_name;
 		return res.render('home');
 	});
 }
 
 module.exports.postLogin = function(req, res) {
-	console.log("POST /login request received userId=" + req.body);
-	console.log("POST /login request received userId=" + req.body);
+	logger.log("POST /login request received username=" + req.body.loginname);
+	//console.log("POST /login request received userId=" + req.body.user_id);
+	//console.log("POST /login request received userId=" + req.body);
 	//logger.log("POST /login request received userId=" + req.body.userId);
 	//console.log("POST /login request received userId=" + req.body.userId);
+
 	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
 	// logger.log('blah' + JSON.stringify(req.body));
 	var username = req.body.loginname;
+	console.log(username);
 	var password = req.body.password;
+	//onsole.log(password);
+
 	userModel.dbLoginUser(username, password, function(error, user) {
 		if (error) {
 			logger.log('Error from database: ' + error);
@@ -93,23 +102,8 @@ module.exports.postLogin = function(req, res) {
 			logger.log('Null object received in get User controller, userId: ' + username);
 			return res.render('Errorpage');
 		}
-		if (user.email === loginname && user.password === password) {
-			
-
-			Gdata = {
-				"userName" : user.first_name,
-				"businesses" : user.businesses,
-				"userId": user._id,
-				"hotel" : user.hotel,
-				"bar" : user.bar,
-				"longi" : user.longi,
-				"lat" : user.lat
-			};
-			
-			res.locals = Gdata;
-
-			
-			res.render('Home');
+		if (user.email === username && user.password === password) {
+			res.render('home');
 			return;
 		} else {
 			res.locals.errorMessage = "Sorry " + username + ". We did not match any credentials. Do you want to try again?";
@@ -125,7 +119,7 @@ module.exports.getHomePage = function(req , res){/*
 	res.locals.userName = Guser;
 	res.locals.businesses = Gbusinesses;
 	res.locals.userId = GuserId;*/
-	res.locals = Gdata;
-	res.render('Home');
+	//res.locals = Gdata;
+	res.render('home');
 	return;
 }

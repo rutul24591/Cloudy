@@ -102,7 +102,25 @@ function dbGetBusiness(businessId, callback) {
 	});
 }
 
+function dbGetTicket(ticketId, callback){
+	env.Ticket.find().where("ticketId", ticketId).exec(function(error,ticket){
+		if(error){
+			logger.error("Error From database:" + error);
+			return callback(error);
+		}
+
+		//Check for any null object received from the database
+		if(validator.isNull(ticket)){
+			logger.debug("Null object received from the database, ticketId: " +ticketId);
+			return callback(null,{});
+		}
+		// return ticket data from the database
+		return callback(null, _.omit(ticket, ['_id','__v']));
+	});
+}
+
 moduleExports = {}
+moduleExports.dbGetTicket = dbGetTicket;
 moduleExports.dbGetHotel = dbGetHotel;
 moduleExports.dbGetGym = dbGetGym;
 moduleExports.dbGetBar = dbGetBar;

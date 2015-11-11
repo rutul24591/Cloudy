@@ -7,12 +7,10 @@ var express = require('express'),
     session = require('express-session'),
     http = require('http'),
     https = require('https'),
-    passport = require('passport'),
     sharedEnv = require('./config/environment'),
     fs = require('fs'),
     validator = require('validator'),
     logger = require('util'),
-    express = require('express'),
     ejs = require('ejs'),
     mongoose= require("mongoose");
 
@@ -25,7 +23,7 @@ var express = require('express'),
 
 var app = express();
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
@@ -53,14 +51,6 @@ require('./config/init/compileSchemas')(app, sharedEnv);
 // app.use(session({
 //   secret: 'keyboard cat'
 // }));
-
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// app.use('/', index);
-// app.use('/auth', authenticate);
-//app.use('/api', api);
 
 
 // catch 404 and forward to error handler

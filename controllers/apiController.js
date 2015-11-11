@@ -49,6 +49,34 @@ module.exports.getBusiness = function(req, res) {
 }
 
 
+module.exports.getTicket = function(req,res){
+	if(!req.query.ticketId){
+		return res.status(200).send([]);
+	}
+	env.io.emit('request',' Received request: '+ req.method +": "+ req.baseUrl + req.path);
+	var ticket = req.query.ticketId.split(',');
+	console.log("tickets:" +ticket);
+	var resArr = [];
+	function findTicket(ticketId, callback){
+		apiModel.dbGetTicket(ticketId, function(err,ticket){
+			if(err){
+				logger.log("Error from the database:" +error);
+				callback(err);
+			}
+			if(!validator.isNull(ticket)){
+				resArr.push(ticket);
+			}
+			call(null,ticket);
+		});
+	}
+	async.each(tickets, findTickets, function(err){
+		if(err){
+			return res.sendStatus(500);
+		}
+		return res.status(200).send(resArr);
+	})
+}
+
 ///
 
 ////

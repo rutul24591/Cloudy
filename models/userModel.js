@@ -65,6 +65,7 @@ function dbLoginUser(username, password, callback) {
 		}
 		// Because mongo is an orm, it's doc needs to be converted to JS object
 		userObject = userObject.toObject();
+		console.log(userObject);
 		//Return the information from database
 		return callback(null, _.omit(userObject, ['__v']));
  	});
