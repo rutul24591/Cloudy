@@ -16,38 +16,36 @@ module.exports.renderTemplate = function(req, res) {
 	res.render('../views/List.html');
 }
 
-module.exports.getTableau = function(req, res) {
-	res.render('../views/tableau.html');
-}
+// module.exports.getTableau = function(req, res) {
+// 	res.render('../views/tableau.html');
+// }
 
-module.exports.getBusiness = function(req, res) {
-	if (!req.query.business_id) {
-		return res.status(200).send([]);
-	}
-	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	var businesses = req.query.business_id.split(',');
-	console.log()
-	var responseArray = [];
-	function findBusiness(businessId, cb) {
-		apiModel.dbGetBusiness(businessId, function(err, business) {
-			if (err) {
-				logger.log('Error from database: ' + error);
-				cb(err);
-			}
-			if(!validator.isNull(business)) {
-				responseArray.push(business);
-			}
-			cb(null, business);
-		});
-	}
-	async.each(businesses, findBusiness, function(err) {
+
+module.exports.getTickets = function(req, res) {
+	apiModel.dbGetAllTickets(function(err, tickets) {
 		if (err) {
+			logger.log('Error: %j', err);
 			return res.sendStatus(500);
 		}
-		return res.status(200).send(responseArray);
+		if (validator.isNull(tickets)) {
+			return res.status(200).send([]);
+		}
+		return res.status(200).send(tickets);
 	});
 }
 
+module.exports.getLogs = function(req,res){
+	apiModel.dbGetAllLogs(function(err, logs){
+		if(err){
+			logger.log("Error: %j", err);
+			return res.sendStatus(500);
+		}
+		if(validator.isNull(logs)){
+			return res.status(200).send([]);
+		}
+		return res.status(200).send(logs);
+	});
+}
 
 module.exports.getTicket = function(req,res){
 	if(!req.query.ticketId){
@@ -66,97 +64,42 @@ module.exports.getTicket = function(req,res){
 			if(!validator.isNull(ticket)){
 				resArr.push(ticket);
 			}
-			call(null,ticket);
+			return callback(null,ticket);
 		});
 	}
-	async.each(tickets, findTickets, function(err){
+	findTicket(req.query.ticketId, function(err, ticket) {
+		if (err) {
+			return res.sendStatus(500);
+		}
+		return res.status(200).send(ticket);
+	});
+}
+
+
+module.exports.getLog = function(req,res){
+	if(!req.query.log_id){
+		return res.status(200).send([]);
+	}
+	env.io.emit('request',' Received request: '+ req.method +": "+ req.baseUrl + req.path);
+	var log = req.query.log_id.split(',');
+	console.log("logs:" +log);
+	var resArr = [];
+	function findLog(log_id, callback){
+		apiModel.dbGetLog(log_id, function(err,log){
+			if(err){
+				logger.log("Error from the database:" +error);
+				callback(err);
+			}
+			if(!validator.isNull(log)){
+				resArr.push(log);
+			}
+			return callback(null,log);
+		});
+	}
+	findLog(req.query.log_id,function(err,log){
 		if(err){
 			return res.sendStatus(500);
 		}
-		return res.status(200).send(resArr);
-	})
-}
-
-///
-
-////
-
-module.exports.getHotelJson = function(req, res) {
-	var hotelId = req.params.hotel_id;
-	
-	var queryData = url.parse(req.url, true).query;
-	var data = {
-		"lat" : queryData.lat,
-		"longi" : queryData.longi
-	};
-	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	apiModel.dbGetHotel(hotelId, function(error, hotels) {
-		if (error) {
-			logger.log('Error from database: ' + error);
-			return res.render('Errorpage', {error: error});
-		}
-		postFiltering.generateFinalReco(hotels,data,function(finalResponse){
-
-			return res.status(200).send(finalResponse);
-			//return finalResponse;
-		});
-		//return res.status(200).send(hotels);
+		return res.status(200).send(log);
 	});
-}
-
-module.exports.getGymJson = function(req, res) {
-	var gymId = req.params.gym_id;
-	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	apiModel.dbGetGym(gymId, function(error, gyms) {
-		if (error) {
-			logger.log('Error from database: ' + error);
-			return res.render('Errorpage', {error: error});
-		}
-		postFiltering.generateFinalReco(gyms,function(finalResponse){
-
-			return res.status(200).send(finalResponse);
-			//return finalResponse;
-		});
-		//return res.status(200).send(gyms);
-	});
-}
-
-module.exports.getBarJson = function(req, res) {
-	var barId = req.params.bar_id;
-	var queryData = url.parse(req.url, true).query;
-	var data = {
-		"lat" : queryData.lat,
-		"longi" : queryData.longi
-	};
-
-	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	apiModel.dbGetBar(barId, function(error, bars) {
-		if (error) {
-			logger.log('Error from database: ' + error);
-			return res.render('Errorpage', {error: error});
-		}
-		postFiltering.generateFinalReco(bars,data,function(finalResponse){
-
-			return res.status(200).send(finalResponse);
-			//return finalResponse;
-		});
-		//return res.status(200).send(bars);
-	});	
-}
-
-module.exports.getBookJson = function(req, res) {
-	var bookId = req.params.book_id;
-	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-	apiModel.dbGetBook(bookId, function(error, books) {
-		if (error) {
-			logger.log('Error from database: ' + error);
-			return res.render('Errorpage', {error: error});
-		}
-		postFiltering.generateFinalReco(books,function(finalResponse){
-
-			return res.status(200).send(finalResponse);
-			//return finalResponse;
-		});
-		//return res.status(200).send(books);
-	});	
 }

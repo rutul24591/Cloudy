@@ -103,7 +103,7 @@ function dbGetBusiness(businessId, callback) {
 }
 
 function dbGetTicket(ticketId, callback){
-	env.Ticket.find().where("ticketId", ticketId).exec(function(error,ticket){
+	env.Tickets.find().where("ticketId", ticketId).exec(function(error,ticket){
 		if(error){
 			logger.error("Error From database:" + error);
 			return callback(error);
@@ -119,12 +119,44 @@ function dbGetTicket(ticketId, callback){
 	});
 }
 
+function dbGetLog(log_id, callback){
+	env.Logs.find().where("logid", log_id).exec(function(error,log){
+		if(error){
+			logger.error("Error From Database:" +error);
+			return callback(error);
+		}
+		if(validator.isNull(log)){
+			logger.debug("Null object received from the database,logId:", +log_id);
+			return callback(null,{});
+		}
+		return callback(null,_.omit(log, ['_id','__v']));
+		
+	});
+}
+
+
+function dbGetAllTickets(callback) {
+	env.Tickets.find({}, function(err, tickets) {
+		if (err) {
+			return callback(err);
+		}
+		return callback(null, tickets);
+	});
+}
+ 
+function dbGetAllLogs(callback){
+	env.Logs.find({}, function(err,logs){
+		if(err){
+			return callback(err);
+		}
+		return callback(null, logs);
+	});
+}
+
+
 moduleExports = {}
 moduleExports.dbGetTicket = dbGetTicket;
-moduleExports.dbGetHotel = dbGetHotel;
-moduleExports.dbGetGym = dbGetGym;
-moduleExports.dbGetBar = dbGetBar;
-moduleExports.dbGetBook = dbGetBook;
-moduleExports.dbGetBusiness = dbGetBusiness;
-
+moduleExports.dbGetLog = dbGetLog;
+moduleExports.dbGetAllTickets = dbGetAllTickets;
+moduleExports.dbGetAllLogs = dbGetAllLogs;
 module.exports = moduleExports;

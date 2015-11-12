@@ -29,23 +29,30 @@ module.exports = function(app, env) {
 	app.get(baseurl + '/cpu.json', errorController.getCpuJson);
 
 	// viz
-	app.get(baseurl + '/tableau', apiController.getTableau);
+	// app.get(baseurl + '/tableau', apiController.getTableau);
+
+	//get all tickets
+	app.get(baseurl + '/ticket', apiController.getTicket);
+	app.get(baseurl + '/tickets.json', apiController.getTickets);
+
+	//get all logs
+	app.get(baseurl + "/log", apiController.getLog);
 
 	// get business information
-	app.get(baseurl + '/business', apiController.getBusiness);
+	// app.get(baseurl + '/business', apiController.getBusiness);
 
-	//api's
-	app.get(baseurl + '/business/hotels/:hotel_id/similar', apiController.renderTemplate);
-	app.get(baseurl + '/business/hotels/:hotel_id/similar.json', apiController.getHotelJson);
+	// //api's
+	// app.get(baseurl + '/business/hotels/:hotel_id/similar', apiController.renderTemplate);
+	// app.get(baseurl + '/business/hotels/:hotel_id/similar.json', apiController.getHotelJson);
 
-	app.get(baseurl + '/business/gym/:gym_id/similar', apiController.renderTemplate);
-	app.get(baseurl + '/business/gym/:gym_id/similar.json', apiController.getGymJson);
+	// app.get(baseurl + '/business/gym/:gym_id/similar', apiController.renderTemplate);
+	// app.get(baseurl + '/business/gym/:gym_id/similar.json', apiController.getGymJson);
 
-	app.get(baseurl + '/business/bars/:bar_id/similar', apiController.renderTemplate);
-	app.get(baseurl + '/business/bars/:bar_id/similar.json', apiController.getBarJson);
+	// app.get(baseurl + '/business/bars/:bar_id/similar', apiController.renderTemplate);
+	// app.get(baseurl + '/business/bars/:bar_id/similar.json', apiController.getBarJson);
 
-	app.get(baseurl + '/business/books/:book_id/similar', apiController.renderTemplate);
-	app.get(baseurl + '/business/books/:book_id/similar.json', apiController.getBookJson);
+	// app.get(baseurl + '/business/books/:book_id/similar', apiController.renderTemplate);
+	// app.get(baseurl + '/business/books/:book_id/similar.json', apiController.getBookJson);
 
 	//static to create user from yelp data set
 	app.post(baseurl + '/staticCreateUser', staticController.createUser);
