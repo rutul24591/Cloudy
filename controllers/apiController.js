@@ -77,15 +77,14 @@ module.exports.getTicket = function(req,res){
 
 
 module.exports.getLog = function(req,res){
-	if(!req.query.log_id){
+	if(!req.query.logId){
 		return res.status(200).send([]);
 	}
 	env.io.emit('request',' Received request: '+ req.method +": "+ req.baseUrl + req.path);
-	var log = req.query.log_id.split(',');
-	console.log("logs:" +log);
+	var log = req.query.logId.split(',');
 	var resArr = [];
-	function findLog(log_id, callback){
-		apiModel.dbGetLog(log_id, function(err,log){
+	function findLog(logId, callback){
+		apiModel.dbGetLog(logId, function(err,log){
 			if(err){
 				logger.log("Error from the database:" +error);
 				callback(err);
@@ -96,7 +95,7 @@ module.exports.getLog = function(req,res){
 			return callback(null,log);
 		});
 	}
-	findLog(req.query.log_id,function(err,log){
+	findLog(req.query.logId,function(err,log){
 		if(err){
 			return res.sendStatus(500);
 		}

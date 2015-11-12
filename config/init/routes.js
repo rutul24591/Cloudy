@@ -31,12 +31,18 @@ module.exports = function(app, env) {
 	// viz
 	// app.get(baseurl + '/tableau', apiController.getTableau);
 
-	//get all tickets
+	// get specific tickets
 	app.get(baseurl + '/ticket', apiController.getTicket);
+
+	//get all tickets
 	app.get(baseurl + '/tickets.json', apiController.getTickets);
 
-	//get all logs
+	
+	// get Specific log
 	app.get(baseurl + "/log", apiController.getLog);
+
+	//get all logs
+	app.get(baseurl + "/logs.json", apiController.getLogs);
 
 	// get business information
 	// app.get(baseurl + '/business', apiController.getBusiness);

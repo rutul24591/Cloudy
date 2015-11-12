@@ -119,14 +119,14 @@ function dbGetTicket(ticketId, callback){
 	});
 }
 
-function dbGetLog(log_id, callback){
-	env.Logs.find().where("logid", log_id).exec(function(error,log){
+function dbGetLog(logId, callback){
+	env.Logs.find().where("logId", logId).exec(function(error,log){
 		if(error){
 			logger.error("Error From Database:" +error);
 			return callback(error);
 		}
 		if(validator.isNull(log)){
-			logger.debug("Null object received from the database,logId:", +log_id);
+			logger.debug("Null object received from the database,logId:", +logId);
 			return callback(null,{});
 		}
 		return callback(null,_.omit(log, ['_id','__v']));
