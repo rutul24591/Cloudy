@@ -37,12 +37,14 @@ module.exports = function(app, env) {
 	//get all tickets
 	app.get(baseurl + '/tickets.json', apiController.getTickets);
 
-	
+	app.get(baseurl +"/tickets", apiController.getTickets);
 	// get Specific log
 	app.get(baseurl + "/log", apiController.getLog);
 
 	//get all logs
 	app.get(baseurl + "/logs.json", apiController.getLogs);
+
+	app.get(baseurl + "/logs", apiController.getLogs)
 
 	// get business information
 	// app.get(baseurl + '/business', apiController.getBusiness);

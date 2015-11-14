@@ -141,6 +141,7 @@ function dbGetAllTickets(callback) {
 			return callback(err);
 		}
 		return callback(null, tickets);
+		res.render("tickets");
 	});
 }
  

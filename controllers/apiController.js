@@ -12,9 +12,9 @@ var env = require("../config/environment")
 	,url = require('url');
 ;
 
-module.exports.renderTemplate = function(req, res) {
-	res.render('../views/List.html');
-}
+// module.exports.renderTemplate = function(req, res) {
+// 	res.render('../views/List.html');
+// }
 
 // module.exports.getTableau = function(req, res) {
 // 	res.render('../views/tableau.html');
@@ -31,7 +31,16 @@ module.exports.getTickets = function(req, res) {
 			return res.status(200).send([]);
 		}
 		return res.status(200).send(tickets);
+	res.render("tickets.html");	
 	});
+	
+}
+
+
+
+module.exports.getDashboard = function(req, res, next) {
+  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+  res.render('dashboard1');
 }
 
 module.exports.getLogs = function(req,res){
@@ -44,8 +53,32 @@ module.exports.getLogs = function(req,res){
 			return res.status(200).send([]);
 		}
 		return res.status(200).send(logs);
+		console.log(logs);
+		res.render("log");
 	});
+	
 }
+
+module.exports.getCpu = function(req, res, next) {
+  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+  res.render('cpu');
+}
+
+module.exports.getCpuJson = function(req, res, next) {
+  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+  os.cpuUsage(function (usage) {
+    os.cpuFree(function (free) {
+      var stats = {
+        cpuUsage: usage,
+        cpuFree: free,
+        freeMem: os.freememPercentage(),
+        uptime: os.processUptime()
+      }
+      res.send(stats);      
+    });
+  });
+}
+
 
 module.exports.getTicket = function(req,res){
 	if(!req.query.ticketId){
