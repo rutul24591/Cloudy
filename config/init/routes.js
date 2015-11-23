@@ -24,12 +24,10 @@ module.exports = function(app, env) {
 	app.get(baseurl + '/errors', errorController.getErrors);
 	app.get(baseurl + '/errors.json', errorController.getErrorsJson);
 
+	app.get(baseurl + '/RCA', apiController.getRCA);
 	// cpu status
 	app.get(baseurl + '/cpu', errorController.getCpu);
 	app.get(baseurl + '/cpu.json', errorController.getCpuJson);
-
-	// viz
-	// app.get(baseurl + '/tableau', apiController.getTableau);
 
 	// get specific tickets
 	app.get(baseurl + '/ticket', apiController.getTicket);
@@ -37,14 +35,19 @@ module.exports = function(app, env) {
 	//get all tickets
 	app.get(baseurl + '/tickets.json', apiController.getTickets);
 
-	app.get(baseurl +"/tickets", apiController.getTickets);
+	app.get(baseurl + '/tickets', apiController.getTicket);
 	// get Specific log
+	
 	app.get(baseurl + "/log", apiController.getLog);
 
 	//get all logs
 	app.get(baseurl + "/logs.json", apiController.getLogs);
 
-	app.get(baseurl + "/logs", apiController.getLogs)
+	app.get(baseurl + "/logs", apiController.getLog);
+
+	//static to create user from yelp data set
+	app.post(baseurl + '/staticCreateUser', staticController.createUser);
+	app.get(baseurl + '/home' , userController.getHomePage);
 
 	// get business information
 	// app.get(baseurl + '/business', apiController.getBusiness);
@@ -62,7 +65,5 @@ module.exports = function(app, env) {
 	// app.get(baseurl + '/business/books/:book_id/similar', apiController.renderTemplate);
 	// app.get(baseurl + '/business/books/:book_id/similar.json', apiController.getBookJson);
 
-	//static to create user from yelp data set
-	app.post(baseurl + '/staticCreateUser', staticController.createUser);
-	app.get(baseurl + '/home' , userController.getHomePage)
+	
 }

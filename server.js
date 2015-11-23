@@ -12,6 +12,7 @@ var express = require('express'),
     validator = require('validator'),
     logger = require('util'),
     ejs = require('ejs'),
+    io = require('socket.io')(http),
     mongoose= require("mongoose");
 
 

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>REALY-YELP | Dashboard</title>
+    <title>CLOUDY</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -69,7 +69,7 @@
       <!-- header logo: style can be found in header.less -->
       <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">REALY-YELP</a>
+        <a href="index2.html" class="logo">CLOUDY</a>
         <!-- Header Navbar: style can be found in header.less -->
       </header>
       <!-- Left side column. contains the logo and sidebar -->
@@ -102,39 +102,39 @@
             <li class="header">MAIN NAVIGATION</li>
 
             <li class="treeview">
-              <a href="/Home">
+              <a href="/home">
                 <span>Home</span>    
               </a>    
             </li>
             <li class="treeview">
-              <a href="/cpu">
-                <span>System Statistics</span>
+              <a href="/dashboard1">
+                <span>Dashboard</span>
               </a>
             </li>         
             <li class="treeview">
               <a href="#">
-                <span>Charts</span>
+                <span>View All Instances</span>
               </a>
             </li>
             <li class="treeview">
-              <a href="/errors">
-                <span>Errors Dashboard</span>
+              <a href="">
+                <span>View All Alerts</span>
               </a>
             </li>       
              
             <li class="treeview">
-              <a href="#">
-                <span>About</span>
+              <a href="/cpu">
+                <span>CPU</span>
               </a>
             </li>   
              <li class="treeview">
-              <a target="blank" href="http://yelpglobe-betasjsu.rhcloud.com">
-                <span>WebGL Data Viz</span>
+              <a target="blank" href="/tickets">
+                <span>View All Tickets</span>
               </a>
             </li>
             <li class="treeview">
-              <a href="/tableau">
-                <span>Tableau Visualizations</span>
+              <a href="/logs">
+                <span>View All Logs</span>
               </a>
             </li>   
             <li class="treeview">
@@ -220,7 +220,7 @@
                 ]);
                 var dataCpuUsage = google.visualization.arrayToDataTable([
                   ['Label', 'Value'],
-                  ['Cpu Usage', Math.round(stats.cpuUsage * 100)]
+                  ['ThresholdCount', Math.round(stats.cpuUsage * 100)]
                 ]);
                 var dataCpuFree = google.visualization.arrayToDataTable([
                   ['Label', 'Value'],
@@ -229,21 +229,21 @@
               }
 
               var optionsMemory = {
-                width: 800, height: 400,
+                width: 500, height: 300,
                 redFrom: 0, redTo: 10,
                 yellowFrom:10, yellowTo: 30,
                 minorTicks: 5
               };
 
               var optionsCpuUsage = {
-                width: 800, height: 400,
+                width: 500, height: 300,
                 redFrom: 90, redTo: 100,
                 yellowFrom: 70, yellowTo: 90,
-                minorTicks: 5
+                minorTicks: 10
               };
 
               var optionsCpuFree = {
-                width: 800, height: 400,
+                width: 600, height: 200,
                 redFrom: 0, redTo: 10,
                 yellowFrom: 10, yellowTo: 30,
                 minorTicks: 5
