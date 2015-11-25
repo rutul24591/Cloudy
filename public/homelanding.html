@@ -5,15 +5,17 @@
 
     .profile{
     position: absolute;
-    width : 430px;
+    width : 530px;
     height: 300px;
-    left : 18%;
-    top : 20%;
-    right :20%;
+    left : 22%;
+    top : 10%;
     background-color: white;
     z-index: 99;
     }
 
+    .bs-example{
+      margin: 20px;
+    }
     </style>
     
     <meta charset="UTF-8">
@@ -59,93 +61,43 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
-          <a href="/dashboard">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
-              </a>  
           <div class="navbar-custom-menu">
             <ul>
-              <li><a href="/logout" style="top: 5px" class="btn btn-default">Sign out</a></li>
+              <li><a href="/logout" class="btn btn-default">Sign out</a></li>
             </ul>
             <!-- anything that needs addition to the navigation menu goes here-->
           </div>
         </nav>
       </header>
       <!-- Left side column. contains the logo and sidebar -->
-
-    
-      <div class = "profile">
-          <div class="container" id="container" >
-       <!--      <table style="width:100%">
-              <tr>
-                <td><div id="container"></div></td>
-              </tr>
-            </table> -->
-
-
-            <iframe src="https://rpm.newrelic.com/public/charts/L8h0vAMt55" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/dT78ttB8Fkq" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/g6BC9HkbSh6" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/i4CML8l3YEZ" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-
-      <script src="js/jquery.js"></script>
-    </div>
+   
+        <div class="container">
+            <div class="profile">
+            <h1> Welcome to CLOUDY </h1><br><br>
+            <h3>Please select a Instance to continue</h3>
+                <div class="bs-example">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Instance Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="/home">realyyelp</a></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-     
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left info">
-              <p>Rutul Amin</p>
-              </div>
-          </div>
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="active treeview">
-              <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Home</span></i>
-              </a>  
-            </li>
-            <li class="treeview">
-              <a href="/instances">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>View All Instances</span>
-              </a>
-            </li>
-            <li>
-              <a href="/alerts">
-                <i class="fa fa-th"></i> <span>View all Alerts</span> 
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="/ticket">
-                <i class="fa fa-edit"></i> <span>View All Tickets</span>
-                </a>
-            </li>
-            <li class="treeview">
-            <li><a href="/logs"><i class="fa fa-book"></i> View All Logs</a></li>
-            <li><a href="/index"><i class="fa fa-book"></i> Documentation</a></li>
-            </li>
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside> -->
-
-
+            </div>
+        </div>    
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
-
     <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
-    
+
     <!-- Morris.js charts -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="plugins/morris/morris.min.js" type="text/javascript"></script>
@@ -175,6 +127,6 @@
 
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js" type="text/javascript"></script>
-    
   </body>
+  
 </html>

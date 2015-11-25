@@ -10,10 +10,7 @@ var env = require("../config/environment")
 	, crypto = require('crypto')
 ;
 
-var Guser ;
-var Gbusinesses; 
-var GuserId;
-var Gdata = {};
+
 // encryption algorithm
 var algo = 'md5';
 
@@ -52,9 +49,10 @@ module.exports.postUser = function(req, res) {
 		}
 		logger.log('POST /user response: ' + JSON.stringify(newUser));
 		res.locals.userName = newUser.first_name;
-		return res.render('home');
+		return res.render('homelanding');
 	});
 }
+
 
 module.exports.getUser = function(req, res) {
 	logger.log("GET /user request received userId=" + req.body.user_id);
@@ -71,11 +69,10 @@ module.exports.getUser = function(req, res) {
 
 		}
 		logger.log('GET /user response ' + JSON.stringify(user));
-
-		return res.send(200, user);
+		console.log(user.userName);
 		res.locals.userName = user.first_name;
-		return res.render('home');
-	});
+		return res.send(200, user);	
+		});
 }
 
 module.exports.postLogin = function(req, res) {
@@ -103,7 +100,7 @@ module.exports.postLogin = function(req, res) {
 			return res.render('Errorpage');
 		}
 		if (user.email === username && user.password === password) {
-			res.render('home');
+			res.render('homelanding');
 			return;
 		} else {
 			res.locals.errorMessage = "Sorry " + username + ". We did not match any credentials. Do you want to try again?";
@@ -115,11 +112,7 @@ module.exports.postLogin = function(req, res) {
 
 
 
-module.exports.getHomePage = function(req , res){/*
-	res.locals.userName = Guser;
-	res.locals.businesses = Gbusinesses;
-	res.locals.userId = GuserId;*/
-	//res.locals = Gdata;
+module.exports.getHomePage = function(req , res){
 	res.render('home');
 	return;
 }

@@ -31,6 +31,7 @@ function dbCreateUser(userObject, callback) {
 	});
 }
 
+
 function dbGetUser(userId, callback) {
 	env.Users.findOne({ "userId": userId }, function(error, userObject) {
 		// log error from database, if so

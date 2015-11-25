@@ -27,6 +27,29 @@ function dbGetTicket(ticketId, callback){
 	});
 }
 
+function dbCreateTicket(ticketObject, callback) {
+	if (!ticketObject.ticketId) {
+		var ticketId = {"ticketId": env.uuid()};
+	}
+	ticketObject = _.extend(ticketObject, ticketId);
+
+	// Create object instance for mongoose
+	var dbTicketObject = new env.Tickets(ticketObject);
+
+	// Because mongoose is an orm, we need to save the object instance
+	dbTicketObject.save(function(error, newTicketObject) {
+		if(error) {
+			logger.error('Error from database creating a ticket.');
+			return callback(error, null);
+		}
+		// Convert the mongoose doc to JSON object
+		newTicketObject = newTicketObject.toObject();
+		return callback(null, _.omit(newTicketObject, ['_id', '__v']));
+	});
+}
+
+
+
 function dbGetLog(logId, callback){
 	env.Logs.find().where("logId", logId).exec(function(error,log){
 		if(error){
@@ -64,6 +87,7 @@ function dbGetAllLogs(callback){
 
 moduleExports = {}
 moduleExports.dbGetTicket = dbGetTicket;
+moduleExports.dbCreateTicket = dbCreateTicket;
 moduleExports.dbGetLog = dbGetLog;
 moduleExports.dbGetAllTickets = dbGetAllTickets;
 moduleExports.dbGetAllLogs = dbGetAllLogs;

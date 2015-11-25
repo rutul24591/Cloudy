@@ -95,7 +95,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left info">
-              <p>Rutul Amin</p>
+              <p>{{user.first_name}}</p>
               </div>
           </div>
           <form action="#" method="get" class="sidebar-form">
@@ -108,37 +108,30 @@
           </form>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="active treeview">
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Home</span></i>
               </a>  
             </li>
-            <li class=" treeview">
-              <a href="#">
+            <li class="treeview">
+              <a href="/dash">
                   <i class="fa fa-dashboard"></i><span>Dashboard</span></i>
+                   <ul class="treeview-menu">
+                      <li><a href="/dash1"><i class="fa fa-angle-double-right"></i>Main server</a></li>
+                      <li><a href="/dash"><i class="fa fa-angle-double-right"></i>Database Server</a></li>
+                   </ul>
               </a>
               </li>    
-            <li class="treeview">
-              <a href="/instances">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>View All Instances</span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="/cpu">
-                <i class="fa fa-bar-chart-o"></i>
-                <span>cpu</span>
-              </a>
-            </li>
-            <li>
-              <a href="/alerts">
-                <i class="fa fa-th"></i> <span>View all Alerts</span> 
-              </a>
-            </li>
             <li class="treeview">
               <a href="/tickets">
                 <i class="fa fa-edit"></i> <span>View All Tickets</span>
                 </a>
+            </li>
+            <li class="treeview">
+              <a href="/instances">
+                <i class="fa fa-bar-chart-o"></i>
+                <span>Support</span>
+              </a>
             </li>
             <li class="treeview">
             <li><a href="/logs"><i class="fa fa-book"></i> View All Logs</a></li>
@@ -148,7 +141,8 @@
                 <span>RootCauseAnalysis</span>
               </a>
             </li>
-            <li><a href="/index"><i class="fa fa-book"></i>API Reference</a></li>
+            <li><a href="/API"><i class="fa fa-book"></i>API Reference</a></li>
+             <li><a href="/edit"><i class="fa fa-book"></i>Edit account settings</a></li>
             </li>
           </ul>
         </section>
@@ -156,6 +150,11 @@
       </aside>
 
 
+        <div class="container">
+            <div class="profile">
+            
+            </div>
+        </div>    
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
@@ -191,9 +190,5 @@
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js" type="text/javascript"></script>
   </body>
-  <script type="text/javascript">
-    $("rca").on('click', function(){
-     window.location = "https://bugzilla.mozilla.org/query.cgi?resolution=---&resolution=DUPLICATE&product=Bugzilla";    
-});
-  </script>
+  
 </html>

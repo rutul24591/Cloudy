@@ -26,17 +26,20 @@ module.exports = function(app, env) {
 
 	app.get(baseurl + '/RCA', apiController.getRCA);
 	// cpu status
-	app.get(baseurl + '/cpu', errorController.getCpu);
-	app.get(baseurl + '/cpu.json', errorController.getCpuJson);
+	//app.get(baseurl + '/cpu', errorController.getCpu);
+	//app.get(baseurl + '/cpu.json', errorController.getCpuJson);
 
+	app.get(baseurl + "/dash", apiController.getDash);
 	// get specific tickets
 	app.get(baseurl + '/ticket', apiController.getTicket);
 
 	//get all tickets
 	app.get(baseurl + '/tickets.json', apiController.getTickets);
 
-	app.get(baseurl + '/tickets', apiController.getTicket);
+	app.get(baseurl + '/tickets', apiController.getTickets);
 	// get Specific log
+
+	app.post(baseurl + "/tickets", apiController.postTicket);
 	
 	app.get(baseurl + "/log", apiController.getLog);
 

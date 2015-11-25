@@ -39,6 +39,31 @@ module.exports.getTickets = function(req, res) {
 	return res.render('ticket.html');
  }
 
+ module.exports.postTicket = function(req, res) {
+	// check if body is empty
+	if (_.isEmpty(req.body)) {
+		logger.log("Empty request body received in POST ticket.");
+		return res.render('Errorpage');
+	}
+	
+	logger.log("POST /ticket request received." + JSON.stringify(req.body));
+	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+	apiModel.dbCreateTicket(req.body, function(error, newTicket) {
+		if (error) {
+			logger.log('Error from database in POST ticket. ' + error);
+			return res.render('Errorpage');
+		}
+		if (validator.isNull(newTicket)) {
+			logger.log('Null object received from database in POST ticket. ');
+			return res.render('Errorpage');
+		}
+		logger.log('POST /ticket response: ' + JSON.stringify(newTicket));
+		//res.locals.ticketName = newTicket.first_name;
+		return res.render('ticket');
+	});
+}
+
+
 module.exports.getLogs = function(req,res){
 	apiModel.dbGetAllLogs(function(err, logs){
 		if(err){
@@ -64,20 +89,20 @@ module.exports.getLog = function(req, res) {
 //   //res.render('cpu');
 // }
 
-module.exports.getCpuJson = function(req, res, next) {
-  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-  os.cpuUsage(function (usage) {
-    os.cpuFree(function (free) {
-      var stats = {
-        cpuUsage: usage,
-        cpuFree: free,
-        freeMem: os.freememPercentage(),
-        uptime: os.processUptime()
-      }
-      res.send(stats);      
-    });
-  });
-}
+// module.exports.getCpuJson = function(req, res, next) {
+//   env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+//   os.cpuUsage(function (usage) {
+//     os.cpuFree(function (free) {
+//       var stats = {
+//         cpuUsage: usage,
+//         cpuFree: free,
+//         freeMem: os.freememPercentage(),
+//         uptime: os.processUptime()
+//       }
+//       res.send(stats);      
+//     });
+//   });
+// }
 
 
 module.exports.getTicket = function(req,res){
@@ -139,4 +164,9 @@ module.exports.getLog = function(req,res){
 
 module.exports.getRCA =function(req,res){
 	 res.redirect("https://bugzilla.mozilla.org/");
+}
+
+module.exports.getDash = function(req,res) {
+
+		return res.render("dashboard1");
 }

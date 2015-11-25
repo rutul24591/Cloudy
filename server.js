@@ -7,6 +7,7 @@ var express = require('express'),
     session = require('express-session'),
     http = require('http'),
     https = require('https'),
+    handlebars = require('handlebars'),
     sharedEnv = require('./config/environment'),
     fs = require('fs'),
     validator = require('validator'),
@@ -46,48 +47,7 @@ require('./config/init/routes')(app, sharedEnv);
 require('./config/init/util')(app, sharedEnv);
 require('./config/init/compileSchemas')(app, sharedEnv);
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-//app.use(logger('dev'));
-// app.use(session({
-//   secret: 'keyboard cat'
-// }));
 
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//     var err = new Error('Not Found');
-//     err.status = 404;
-//     next(err);
-// });
-
-//// Initialize Passport
-// var initPassport = require('./passport-init');
-// initPassport(passport);
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-// if (app.get('env') === 'development') {
-//     app.use(function(err, req, res, next) {
-//         res.status(err.status || 500);
-//         res.render('error', {
-//             message: err.message,
-//             error: err
-//         });
-//     });
-// }
-
-// production error handler
-// no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//     res.status(err.status || 500);
-//     res.render('error', {
-//         message: err.message,
-//         error: {}
-//     });
-// });
 
 sharedEnv.hostname = require('os').hostname();
 server = http.createServer(app);
