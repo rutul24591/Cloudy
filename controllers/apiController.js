@@ -73,7 +73,6 @@ module.exports.getLogs = function(req,res){
 		if(validator.isNull(logs)){
 			return res.status(200).send([]);
 		}
-		console.log(logs);
 		return res.status(200).send(logs);
 	});
 	
@@ -167,6 +166,11 @@ module.exports.getRCA =function(req,res){
 }
 
 module.exports.getDash = function(req,res) {
-
 		return res.render("dashboard1");
 }
+
+module.exports.getDash1 = function(req,res){
+		return res.render("dashboard2");
+}
+
+

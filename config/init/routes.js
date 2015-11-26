@@ -30,6 +30,9 @@ module.exports = function(app, env) {
 	//app.get(baseurl + '/cpu.json', errorController.getCpuJson);
 
 	app.get(baseurl + "/dash", apiController.getDash);
+
+	app.get(baseurl + "/dash1", apiController.getDash1);
+
 	// get specific tickets
 	app.get(baseurl + '/ticket', apiController.getTicket);
 
@@ -46,7 +49,7 @@ module.exports = function(app, env) {
 	//get all logs
 	app.get(baseurl + "/logs.json", apiController.getLogs);
 
-	app.get(baseurl + "/logs", apiController.getLog);
+	app.get(baseurl + "/logs", apiController.getLogs);
 
 	//static to create user from yelp data set
 	app.post(baseurl + '/staticCreateUser', staticController.createUser);

@@ -80,6 +80,7 @@ function dbGetAllLogs(callback){
 		if(err){
 			return callback(err);
 		}
+		console.log(logs);
 		return callback(null, logs);
 	});
 }
