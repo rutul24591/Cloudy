@@ -12,6 +12,10 @@
     background-color: white;
     z-index: 99;
     }
+
+    .bs-example{
+      margin: 20px;
+    }
     </style>
     
     <meta charset="UTF-8">
@@ -109,7 +113,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="treeview">
-              <a href="#">
+              <a href="/home">
                 <i class="fa fa-dashboard"></i> <span>Home</span></i>
               </a>  
             </li>
@@ -136,7 +140,7 @@
               </a>
             </li>
             <li><a href="/API"><i class="fa fa-book"></i>API Reference</a></li>
-             <li><a href="/edit"><i class="fa fa-book"></i>Edit account settings</a></li>
+             <li><a href="/Errorpage.html"><i class="fa fa-book"></i>Edit account settings</a></li>
             </li>
           </ul>
         </section>
@@ -146,8 +150,27 @@
 
         <div class="container">
             <div class="profile">
-            
+             <div class="bs-example">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Instance Name</th>
+                    <th>Instance Id</th>
+                    <th>Deployment platform</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="font-size:15px">
+                    <td>1</td>
+                    <td>realyyelp</td>
+                    <td>5608765b89f5cff2b10000e5</td>
+                    <td>Redhat Openshift</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>    
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
