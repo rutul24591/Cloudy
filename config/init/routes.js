@@ -47,7 +47,7 @@ module.exports = function(app, env) {
 	app.get(baseurl + "/log", apiController.getLog);
 
 	//get all logs
-	app.get(baseurl + "/logs.json", apiController.getLogs);
+	app.get(baseurl + "/logs.json", apiController.getLogsData);
 
 	app.get(baseurl + "/logs", apiController.getLogs);
 

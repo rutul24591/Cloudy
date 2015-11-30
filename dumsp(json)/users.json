@@ -1,0 +1,6 @@
+{"_id":{"$oid":"56402925dde3cff90f673a63"},"first_name":"Neeraj"}
+{"_id":{"$oid":"564029d5dde3cff90f673a64"},"_v":0,"email":"nitswits@yahoo.com","first_name":"Neeraj","last_name":"Sharma","password":"password","password_confirmation":"password","userId":"df52cb3a-2019-4e15-a108-65eba99db899"}
+{"__v":0,"_id":{"$oid":"5641c073d1e6908728ed58fa"},"email":"rutul591@gmail.com","first_name":"Rutul","last_name":"Amin","password":"pass","password_confirmation":"pass","userId":"ca82c7d0-7be6-4bfc-ac01-872cf15e22f9"}
+{"__v":0,"_id":{"$oid":"56427082e9a41a132ace124e"},"email":"rutul24591@yahoo.co.in","first_name":"Rutul","last_name":"Amin","password":"pass","password_confirmation":"pass","userId":"605607f8-cafa-463c-a69e-60ae04f33eb3"}
+{"__v":0,"_id":{"$oid":"5642ca586351370734919984"},"email":"shivam@gmail.com","first_name":"Shivam","last_name":"Patel","password":"test","password_confirmation":"test","userId":"f1d6f127-4603-4faa-b1de-90905a7b833d"}
+{"__v":0,"_id":{"$oid":"564780e92a4b66af40ac6368"},"email":"","first_name":"","last_name":"","password":"","password_confirmation":"","userId":"83d51ae2-8e70-4b99-99c8-1e86ed2c0a86"}

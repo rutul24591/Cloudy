@@ -63,8 +63,83 @@ module.exports.getTickets = function(req, res) {
 	});
 }
 
+module.exports.putProduct = function(req, res) {
+  if (_.isEmpty(req.body)) {
+    log.info('Empty or invalid request body');
+    return res.status(400).send(app.locals.errors.code400);
+  }
+  // TODO: Validate schema?
+  Product.findById(req.params.product_id, function(err, product) {
+    if (err) {
+      log.warn('Error from database finding product', err);
+      return res.status(500).send(app.locals.errors.code500);
+    }
+    if (validator.isNull(product)) {
+      log.info('Product not found');
+      return res.status(404).send(app.locals.errors.code404);
+    }
+    if (req.body.name) {
+      product.set('name', req.body.name);
+    }
+    if (req.body.description) {
+      product.set('description', req.body.description);
+    }
+    if (req.body.price) {
+      product.set('price', req.body.price);
+    }
+    if (req.body.image) {
+      product.set('image', req.body.image);
+    }
+    product.save(function(err, product) {
+      if (err) {
+        log.warn('Error saving product', err);
+        return res.status(500).send(app.locals.errors.code500);
+      }
+      return res.status(200).send(product.toObject());
+    });
+  });  
+}
+
+
+module.exports.putTicket = function(req,res){
+	if(_.isEmpty(req.body)){
+		logger.log("Empty or invalid request body");
+		return res.sendStatus(500);
+	}
+
+	Ticket.findById(req.params.ticketId, function(err,ticket){
+		if(err){
+			logger.log("Error from database in finding ticket", err);
+			return res.sendStatus(404);
+		}
+
+		if(req.body.ticketName){
+			ticket.set("ticketName", req.body.ticketName);
+		}
+		if(req.body.Priority){
+			ticket.set("Priority", req.body.Priority);
+		}
+		if(req.body.ticketStatus){
+			ticket.set("ticketStatus", req.body.ticketStatus);
+		}
+		ticket.save(function(err,ticket){
+			if(err){
+				logger.log("Error in saving ticket", err);
+				return res.sendStatus(500);
+			}
+			return res.sendStatus(200).send(ticket.toObject());
+		});
+	});
+}
 
 module.exports.getLogs = function(req,res){
+	
+		res.render('log.html');
+	
+}
+
+
+module.exports.getLogsData = function(req,res){
 	apiModel.dbGetAllLogs(function(err, logs){
 		if(err){
 			logger.log("Error: %j", err);
@@ -73,6 +148,7 @@ module.exports.getLogs = function(req,res){
 		if(validator.isNull(logs)){
 			return res.status(200).send([]);
 		}
+		//res.render('log.html',logs);
 		return res.status(200).send(logs);
 	});
 	
