@@ -74,6 +74,10 @@ function dbGetAllTickets(callback) {
 		return callback(null, tickets);
 	});
 }
+
+
+
+//function dbPutTicket()
  
 function dbGetAllLogs(callback){
 	env.Logs.find({}, function(err,logs){

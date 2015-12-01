@@ -30,14 +30,20 @@ module.exports.getTickets = function(req, res) {
 			return res.status(200).send([]);
 		}
 		
-		console.log(tickets);
-		return res.status(200).send(tickets);
+		//console.log(tickets);
+		return res.render("ticket.html",tickets);
+		//return res.status(200).send(tickets);
 	});	
 }
 
  module.exports.getTicket = function(req,res){
 	return res.render('ticket.html');
  }
+
+
+ // module.exports.getTickets= function(req,res){
+ // 	return res.render("ticket.html");
+ // }
 
  module.exports.postTicket = function(req, res) {
 	// check if body is empty
@@ -63,42 +69,21 @@ module.exports.getTickets = function(req, res) {
 	});
 }
 
-module.exports.putProduct = function(req, res) {
-  if (_.isEmpty(req.body)) {
-    log.info('Empty or invalid request body');
-    return res.status(400).send(app.locals.errors.code400);
-  }
-  // TODO: Validate schema?
-  Product.findById(req.params.product_id, function(err, product) {
-    if (err) {
-      log.warn('Error from database finding product', err);
-      return res.status(500).send(app.locals.errors.code500);
-    }
-    if (validator.isNull(product)) {
-      log.info('Product not found');
-      return res.status(404).send(app.locals.errors.code404);
-    }
-    if (req.body.name) {
-      product.set('name', req.body.name);
-    }
-    if (req.body.description) {
-      product.set('description', req.body.description);
-    }
-    if (req.body.price) {
-      product.set('price', req.body.price);
-    }
-    if (req.body.image) {
-      product.set('image', req.body.image);
-    }
-    product.save(function(err, product) {
-      if (err) {
-        log.warn('Error saving product', err);
-        return res.status(500).send(app.locals.errors.code500);
-      }
-      return res.status(200).send(product.toObject());
-    });
-  });  
+module.exports.getTicketsData = function(req,res){
+	apiModel.dbGetAllTickets(function(err, tickets){
+		if(err){
+			logger.log("Error: %j", err);
+			return res.sendStatus(500);
+		}
+		if(validator.isNull(tickets)){
+			return res.status(200).send([]);
+		}
+		//res.render('log.html',logs);
+		return res.status(200).send(tickets);
+	});
+	
 }
+
 
 
 module.exports.putTicket = function(req,res){
@@ -157,28 +142,6 @@ module.exports.getLogsData = function(req,res){
 module.exports.getLog = function(req, res) {
 	return res.render('log.html');
 }
-
-
-// module.exports.getCpu = function(req, res, next) {
-//   env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-//   //res.render('cpu');
-// }
-
-// module.exports.getCpuJson = function(req, res, next) {
-//   env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-//   os.cpuUsage(function (usage) {
-//     os.cpuFree(function (free) {
-//       var stats = {
-//         cpuUsage: usage,
-//         cpuFree: free,
-//         freeMem: os.freememPercentage(),
-//         uptime: os.processUptime()
-//       }
-//       res.send(stats);      
-//     });
-//   });
-// }
-
 
 module.exports.getTicket = function(req,res){
 	if(!req.query.ticketId){

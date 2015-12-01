@@ -37,7 +37,7 @@ module.exports = function(app, env) {
 	app.get(baseurl + '/ticket', apiController.getTicket);
 
 	//get all tickets
-	app.get(baseurl + '/tickets.json', apiController.getTickets);
+	app.get(baseurl + '/tickets.json', apiController.getTicketsData);
 
 	app.get(baseurl + '/tickets', apiController.getTickets);
 	// get Specific log
@@ -55,21 +55,7 @@ module.exports = function(app, env) {
 	app.post(baseurl + '/staticCreateUser', staticController.createUser);
 	app.get(baseurl + '/home' , userController.getHomePage);
 
-	// get business information
-	// app.get(baseurl + '/business', apiController.getBusiness);
-
-	// //api's
-	// app.get(baseurl + '/business/hotels/:hotel_id/similar', apiController.renderTemplate);
-	// app.get(baseurl + '/business/hotels/:hotel_id/similar.json', apiController.getHotelJson);
-
-	// app.get(baseurl + '/business/gym/:gym_id/similar', apiController.renderTemplate);
-	// app.get(baseurl + '/business/gym/:gym_id/similar.json', apiController.getGymJson);
-
-	// app.get(baseurl + '/business/bars/:bar_id/similar', apiController.renderTemplate);
-	// app.get(baseurl + '/business/bars/:bar_id/similar.json', apiController.getBarJson);
-
-	// app.get(baseurl + '/business/books/:book_id/similar', apiController.renderTemplate);
-	// app.get(baseurl + '/business/books/:book_id/similar.json', apiController.getBookJson);
+	
 
 	
 }

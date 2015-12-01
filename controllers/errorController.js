@@ -45,23 +45,4 @@ module.exports.getErrorsJson = function(req, res, next) {
   });
 }
 
-// module.exports.getCpu = function(req, res, next) {
-//   env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-//   res.render('cpu');
-// }
-
-// module.exports.getCpuJson = function(req, res, next) {
-//   env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
-//   os.cpuUsage(function (usage) {
-//     os.cpuFree(function (free) {
-//       var stats = {
-//         cpuUsage: usage,
-//         cpuFree: free,
-//         freeMem: os.freememPercentage(),
-//         uptime: os.processUptime()
-//       }
-//       res.send(stats);      
-//     });
-//   });
-// }
 
