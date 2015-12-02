@@ -36,6 +36,10 @@ module.exports.getTickets = function(req, res) {
 	});	
 }
 
+module.exports.getAPI = function(req,res){
+	return res.render("api.html");
+}
+
  module.exports.getTicket = function(req,res){
 	return res.render('ticket.html');
  }

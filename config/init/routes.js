@@ -57,6 +57,8 @@ module.exports = function(app, env) {
 
 	app.get(baseurl + "/logs", apiController.getLogs);
 
+	app.get(baseurl + "/API", apiController.getAPI);
+
 	//static to create user from yelp data set
 	app.post(baseurl + '/staticCreateUser', staticController.createUser);
 	app.get(baseurl + '/home' , userController.getHomePage);

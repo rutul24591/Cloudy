@@ -35,6 +35,20 @@ function dbCreateUser(userObject, callback) {
 function dbGetUser(userId, callback) {
 	env.Users.findOne({ "userId": userId }, function(error, userObject) {
 		// log error from database, if so
+		if(userObject === null || userId === null){
+			console.log("nothing");
+			alert("Please enter some credentials for login");
+			return done(null,false);
+		}
+
+		if(!isValiduserId(userId,userObject)){
+			console.log("Invalid user");
+			return done(null,false);
+		}
+		if (!isValidPassword(user, password)){
+						console.log('Invalid Password');
+						return done(null, false);
+			}			 // redirect back to login page
 		if(error) {
 			logger.error('Error from database: ' + error);
 			return callback(error);

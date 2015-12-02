@@ -5,15 +5,18 @@
 
     .profile{
     position: absolute;
-    width : 430px;
+    width : 530px;
     height: 300px;
-    left : 18%;
-    top : 7%;
-    right :20%;
+    left : 22%;
+    top : 10%;
     background-color: white;
     z-index: 99;
     }
 
+    .bs-example{
+      margin: 20px;
+      width: 120%;
+    }
     </style>
     
     <meta charset="UTF-8">
@@ -42,6 +45,8 @@
     <link href="dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
     <link href="plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -59,24 +64,18 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
-          <a href="/dashboard">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
-              </a>  
           <div class="navbar-custom-menu">
             <ul>
-              <li><a href="/logout" style="top: 5px" class="btn btn-default">Sign out</a></li>
+              <li><a href="/logout" class="btn btn-default">Sign out</a></li>
             </ul>
             <!-- anything that needs addition to the navigation menu goes here-->
           </div>
         </nav>
       </header>
       <!-- Left side column. contains the logo and sidebar -->
+   
 
-    
-   <aside class="main-sidebar">
+            <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -123,42 +122,109 @@
               </a>
             </li>
             <li><a href="/API"><i class="fa fa-book"></i>API Reference</a></li>
-          
             </li>
           </ul>
         </section>
         <!-- /.sidebar -->
       </aside>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+        <div class="container">
+            <div class="profile">
+            <script type="text/javascript">
+    $( document ).ready(function() {
+      console.log("all set");
 
+      },error: function() {
+         // $('#result').html('<div class="alert alert-danger" role="alert">Could not load errors</div>');
+        }
+      }).done(function() {
+         $('#apiTable').DataTable();
+      });
 
-      <div class = "profile">
-          <div class="container" id="container" >
-            <h2>Database Statistics</h2>
-       <!--      <table style="width:100%">
-              <tr>
-                <td><div id="container"></div></td>
-              </tr>
-            </table> -->
-
-
-            <iframe src="https://rpm.newrelic.com/public/charts/8mcAPWNXNuS" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/hn5sA69E6Lo" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/i4CML8l3YEZ" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-            <iframe src="https://rpm.newrelic.com/public/charts/bjMNMfgbx6G" width="500" height="280" scrolling="no" frameborder="no"></iframe>
-
-      <script src="js/jquery.js"></script>
-    </div>
+    });
+      
+    </script>
+                <div class="bs-example">
+    <table class="table" id="#apiTable">
+        <thead>
+            <tr>
+                <th>API's</th>
+                <th>Method</th>
+                <th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>/users</td>
+                <td>post</a></td>
+            </tr>
+            <tr>
+                <td>/users/:user_id</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/login</td>
+                <td>post</a></td>
+            </tr>
+            <tr>
+                <td>/logout</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/RCA</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/dash</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/dash1</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/ticket</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/tickets.json</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/tickets</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/tickets</td>
+                <td>post</a></td>
+            </tr>
+            <tr>
+                <td>/postTicket</td>
+                <td>post</a></td>
+            </tr>
+            <tr>
+                <td>/log</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/logs.json</td>
+                <td>get</a></td>
+            </tr>
+            <tr>
+                <td>/logs</td>
+                <td>get</a></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-
+            </div>
+        </div>    
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
-
     <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
-    
+
     <!-- Morris.js charts -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="plugins/morris/morris.min.js" type="text/javascript"></script>
@@ -188,6 +254,6 @@
 
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js" type="text/javascript"></script>
-    
   </body>
+  
 </html>
