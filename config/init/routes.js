@@ -43,7 +43,13 @@ module.exports = function(app, env) {
 	// get Specific log
 
 	app.post(baseurl + "/tickets", apiController.postTicket);
+
+	app.post(baseurl + "/postTicket", apiController.postTicket);
 	
+	//put ticket
+	app.put(baseurl + "/ticket", apiController.putTicket);
+
+	//get specific log
 	app.get(baseurl + "/log", apiController.getLog);
 
 	//get all logs

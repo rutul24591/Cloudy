@@ -53,6 +53,7 @@ module.exports.getTickets = function(req, res) {
 	}
 	
 	logger.log("POST /ticket request received." + JSON.stringify(req.body));
+	logger.log(req.body);
 	env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
 	apiModel.dbCreateTicket(req.body, function(error, newTicket) {
 		if (error) {
