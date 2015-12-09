@@ -9,7 +9,8 @@ var env = require("../config/environment")
 	, logger = env.logger
 	, apiModel = require('../models/apiModel')
 	//,postFiltering = require('../recommendation/postFiltering')
-	,url = require('url');
+	,url = require('url')
+	,os  = require('os-utils');
 
 // module.exports.renderTemplate = function(req, res) {
 // 	res.render('../views/List.html');
@@ -215,6 +216,30 @@ module.exports.getDash = function(req,res) {
 
 module.exports.getDash1 = function(req,res){
 		return res.render("dashboard2");
+}
+
+// module.exports.getCpu = function(req,res){
+// 		return res.render("cpu.html");
+// }
+
+module.exports.getCpu = function(req, res, next) {
+  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+  res.render('cpu');
+}
+
+module.exports.getCpuJson = function(req, res, next) {
+  env.io.emit('request', 'Received request: ' + req.method + ': ' + req.baseUrl + req.path);
+  os.cpuUsage(function (usage) {
+    os.cpuFree(function (free) {
+      var stats = {
+        cpuUsage: usage,
+        cpuFree: free,
+        freeMem: os.freememPercentage(),
+        uptime: os.processUptime()
+      }
+      res.send(stats);      
+    });
+  });
 }
 
 

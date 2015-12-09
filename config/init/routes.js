@@ -36,6 +36,10 @@ module.exports = function(app, env) {
 	// get specific tickets
 	app.get(baseurl + '/ticket', apiController.getTicket);
 
+	// get database cpu utilization
+	app.get(baseurl + '/cpu', apiController.getCpu);
+
+	app.get(baseurl + '/cpu.json', apiController.getCpuJson);
 	//get all tickets
 	app.get(baseurl + '/tickets.json', apiController.getTicketsData);
 

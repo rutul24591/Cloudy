@@ -21,6 +21,8 @@
     <meta charset="UTF-8">
     <title>Cloudy with a chance of outages</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
     <!-- Bootstrap 3.3.1 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- FontAwesome 4.2.0 -->
@@ -46,6 +48,11 @@
     <link href="plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -100,9 +107,6 @@
         <section class="sidebar">
           <!-- Sidebar user panel -->
           <div class="user-panel">
-            <div class="pull-left info">
-              <p>{{user.first_name}}</p>
-              </div>
           </div>
           <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
@@ -153,20 +157,14 @@
         <div class="container">
             <div class="profile">
              <div class="bs-example" style="width:150%">
-              <table class="table" id="logTable">
-                <thead>
-                  <tr>
-                    <th>Event Time</th>
-                    <th>Event Name</th>
-                    <th>Event Source</th>
-                    <th>Instance Id</th>
-                    <th>Method</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
+                <table style="width:120%">
+              <tr>
+                <td><div id="chart_div1"></div></td>
+                <td><div id="chart_div2"></div></td> 
+                <td><div id="chart_div3"></div></td>
+              </tr>
+            </table>
+              
             </div>
           </div>
         </div>    
@@ -174,34 +172,79 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-    $( document ).ready(function() {
-      /*
-                         eventTime
-eventSource
-eventName
-instanceId
-method
-        
-      */
-      $.ajax({
-        url: '/logs.json',
-        method: 'GET',
-        cache: false,
-        dataType: 'json',
-        success: function(data) {
-          $.each(data, function(index, element) {
-              //alert(element.eventName); 
-              $('#logTable  TBODY').append('<tr><td>'+element.eventTime+'</td><td>'+element.eventName+'</td><td>'+element.eventSource+'</td><td>'+element.instanceId+'</td><td>'+element.method+'</td></tr>');
-          });
-        },
-        error: function() {
-         // $('#result').html('<div class="alert alert-danger" role="alert">Could not load errors</div>');
-        }
-      }).done(function() {
-         $('#logTable').DataTable();
-      });
+    google.load("visualization", "1", {packages:["gauge"]});
+            google.setOnLoadCallback(drawChart);
+            function drawChart(stats) {
 
-    });
+              if (!stats) {
+                var data = google.visualization.arrayToDataTable([
+                  ['Label', 'Value'],
+                  ['Memory', 80],
+                  ['Cpu Free', 55],
+                  ['Cpu Usage', 68]
+                ]);
+              }
+
+              if (stats) {
+                var dataMemory = google.visualization.arrayToDataTable([
+                  ['Label', 'Value'],
+                  ['Network', Math.round(stats.freeMem * 100)]
+                ]);
+                var dataCpuUsage = google.visualization.arrayToDataTable([
+                  ['Label', 'Value'],
+                  ['Cpu Usage', Math.round(stats.cpuUsage * 100)]
+                ]);
+                var dataCpuFree = google.visualization.arrayToDataTable([
+                  ['Label', 'Value'],
+                  ['Cpu Free', Math.round(stats.cpuFree * 100)] 
+                ]);
+              }
+
+              var optionsMemory = {
+                width: 600, height: 300,
+                redFrom: 0, redTo: 10,
+                yellowFrom:10, yellowTo: 30,
+                minorTicks: 5
+              };
+
+              var optionsCpuUsage = {
+                width: 600, height: 300,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 70, yellowTo: 90,
+                minorTicks: 5
+              };
+
+              var optionsCpuFree = {
+                width: 600, height: 300,
+                redFrom: 0, redTo: 10,
+                yellowFrom: 10, yellowTo: 30,
+                minorTicks: 5
+              };
+
+              var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+              var chart2 = new google.visualization.Gauge(document.getElementById('chart_div2'));
+              //var chart3 = new google.visualization.Gauge(document.getElementById('chart_div3'));
+
+              chart1.draw(dataMemory, optionsMemory);
+              chart2.draw(dataCpuUsage, optionsCpuUsage);
+              //chart3.draw(dataCpuFree, optionsCpuFree);
+            }
+        
+        setInterval(function() {
+          $.ajax({
+            url: '/cpu.json',
+            method: 'GET',
+            cache: false,
+            dataType: 'json',
+            success: function(data) {
+              drawChart(data);
+            },
+            error: function() {
+              $('#result').html('<div class="alert alert-danger" role="alert">Could not load statistics.</div>');
+            }
+          });
+        }, 3000);     
+      </script>
       
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
